@@ -1,6 +1,6 @@
-import { fakeShadow, makeTable } from './common.js';
+import { materials, fakeShadow, makeTable } from './common.js';
 
-export default function createAcompanhamentos(THREE) {
+export default function createAcompanhamentos(THREE, { envMap }) {
     const group = new THREE.Group();
     const inner = new THREE.Group();
     group.add(inner);
@@ -18,23 +18,27 @@ export default function createAcompanhamentos(THREE) {
         const dish = new THREE.Group();
         const plate = new THREE.Mesh(
             new THREE.CylinderGeometry(0.26, 0.3, 0.08, 20),
-            new THREE.MeshStandardMaterial({ color: 0xf5f0e6, roughness: 0.7 })
+            materials.plastic(0xf5f0e6)
         );
         plate.position.y = 0.53;
+        plate.castShadow = true;
+        plate.receiveShadow = true;
         dish.add(plate);
 
         const food = new THREE.Mesh(
             new THREE.SphereGeometry(0.2, 18, 14),
-            new THREE.MeshStandardMaterial({ color: d.color, roughness: 0.9 })
+            materials.liquid(d.color)
         );
         food.scale.set(1, 0.7, 1);
         food.position.y = 0.6;
+        food.castShadow = true;
         dish.add(food);
 
         if (index === 2) {
             for (let i = 0; i < 4; i++) {
-                const veg = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), new THREE.MeshStandardMaterial({ color: i % 2 ? 0xe67e22 : 0x2e7d32, roughness: 0.8 }));
+                const veg = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), materials.liquid(i % 2 ? 0xe67e22 : 0x2e7d32));
                 veg.position.set(Math.cos((i / 4) * Math.PI * 2) * 0.12, 0.68, Math.sin((i / 4) * Math.PI * 2) * 0.12);
+                veg.castShadow = true;
                 dish.add(veg);
             }
         }

@@ -1,6 +1,6 @@
-import { fakeShadow, makeTable } from './common.js';
+import { materials, fakeShadow, makeTable } from './common.js';
 
-export default function createRefrigerantes(THREE) {
+export default function createRefrigerantes(THREE, { envMap }) {
     const group = new THREE.Group();
     const inner = new THREE.Group();
     group.add(inner);
@@ -8,39 +8,57 @@ export default function createRefrigerantes(THREE) {
     inner.add(makeTable(THREE, 1.6, 1.2, 0xbfa98a));
 
     const cans = [];
-    const canMat = new THREE.MeshStandardMaterial({ color: 0xd52b2b, roughness: 0.35, metalness: 0.2 });
-    const lidMat = new THREE.MeshStandardMaterial({ color: 0xdfe3e6, roughness: 0.3, metalness: 0.6 });
+    const canGeometry = new THREE.CylinderGeometry(0.14, 0.12, 0.42, 18);
+    const bandGeometry = new THREE.CylinderGeometry(0.142, 0.122, 0.14, 18);
+    const lidGeometry = new THREE.CylinderGeometry(0.12, 0.12, 0.03, 18);
+    const baseGeometry = new THREE.CylinderGeometry(0.12, 0.12, 0.03, 18);
 
-    function addCan(x, z, rotY) {
-        const can = new THREE.Group();
-        const body = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.12, 0.42, 18), canMat);
-        body.position.y = 0.21;
-        can.add(body);
+    const positions = [
+        [-0.28, 0.05],
+        [0.0, 0.12],
+        [0.28, 0.05],
+        [-0.14, 0.55],
+        [0.14, 0.55],
+        [0.0, 0.95]
+    ];
 
-        const band = new THREE.Mesh(new THREE.CylinderGeometry(0.142, 0.122, 0.14, 18), new THREE.MeshStandardMaterial({ color: 0xf2f2f2, roughness: 0.5 }));
-        band.position.y = 0.21;
-        can.add(band);
+    const canMesh = new THREE.InstancedMesh(canGeometry, materials.redCoke, positions.length);
+    const bandMesh = new THREE.InstancedMesh(bandGeometry, materials.plastic(0xf2f2f2), positions.length);
+    const lidMesh = new THREE.InstancedMesh(lidGeometry, materials.silver, positions.length);
+    const baseMesh = new THREE.InstancedMesh(baseGeometry, materials.silver, positions.length);
 
-        const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.03, 18), lidMat);
-        lid.position.y = 0.41;
-        can.add(lid);
+    const dummy = new THREE.Object3D();
 
-        const base = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.03, 18), lidMat);
-        base.position.y = 0.015;
-        can.add(base);
+    positions.forEach(([x, z], i) => {
+        dummy.position.set(x, 0.5, z);
+        dummy.updateMatrix();
+        canMesh.setMatrixAt(i, dummy.matrix);
+        bandMesh.setMatrixAt(i, dummy.matrix);
 
-        can.position.set(x, 0.5, z);
-        can.rotation.y = rotY;
-        inner.add(can);
-        cans.push(can);
-    }
+        dummy.position.set(x, 0.5 + 0.21, z);
+        dummy.updateMatrix();
+        bandMesh.setMatrixAt(i, dummy.matrix);
 
-    addCan(-0.28, 0.05, 0);
-    addCan(0.0, 0.12, 0);
-    addCan(0.28, 0.05, 0);
-    addCan(-0.14, 0.55, 0.4);
-    addCan(0.14, 0.55, 0.4);
-    addCan(0.0, 0.95, 0.8);
+        dummy.position.set(x, 0.5 + 0.41, z);
+        dummy.updateMatrix();
+        lidMesh.setMatrixAt(i, dummy.matrix);
+
+        dummy.position.set(x, 0.5 + 0.015, z);
+        dummy.updateMatrix();
+        baseMesh.setMatrixAt(i, dummy.matrix);
+    });
+
+    canMesh.instanceMatrix.needsUpdate = true;
+    bandMesh.instanceMatrix.needsUpdate = true;
+    lidMesh.instanceMatrix.needsUpdate = true;
+    baseMesh.instanceMatrix.needsUpdate = true;
+
+    canMesh.castShadow = true;
+    bandMesh.castShadow = true;
+    lidMesh.castShadow = true;
+    baseMesh.castShadow = true;
+
+    inner.add(canMesh, bandMesh, lidMesh, baseMesh);
 
     inner.add(fakeShadow(THREE, 1.3, 0.25));
 
@@ -48,9 +66,6 @@ export default function createRefrigerantes(THREE) {
         group,
         update(t) {
             inner.rotation.y = Math.sin(t * 0.5) * 0.15;
-            cans.forEach((c, i) => {
-                c.position.y = 0.5 + Math.sin(t * 1.4 + i * 1.1) * 0.015;
-            });
         }
     };
 }

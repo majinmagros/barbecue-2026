@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { FXAAShader } from 'three/addons/shaders/FXAAShader.js';
 
 function makeParticleTexture() {
     const size = 256;
@@ -26,7 +31,24 @@ export function initHeroScene(container) {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(width, height);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
     container.appendChild(renderer.domElement);
+
+    const composer = new EffectComposer(renderer);
+    const renderPass = new RenderPass(null, null);
+    composer.addPass(renderPass);
+
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.6, 0.4, 0.85);
+    bloomPass.threshold = 0.8;
+    bloomPass.strength = 0.7;
+    bloomPass.radius = 0.6;
+    composer.addPass(bloomPass);
+
+    const fxaaPass = new ShaderPass(FXAAShader);
+    fxaaPass.material.uniforms['resolution'].value.set(1 / width, 1 / height);
+    composer.addPass(fxaaPass);
 
     const scene = new THREE.Scene();
 
@@ -34,19 +56,38 @@ export function initHeroScene(container) {
     camera.position.set(0, 2.1, 5.4);
     camera.lookAt(0, 1.15, 0);
 
-    scene.add(new THREE.AmbientLight(0xffd9b0, 0.55));
+    renderPass.scene = scene;
+    renderPass.camera = camera;
 
-    const rim = new THREE.DirectionalLight(0xffb56b, 1.4);
-    rim.position.set(0, 3.5, 2);
-    scene.add(rim);
+    scene.add(new THREE.AmbientLight(0xffd9b0, 0.4));
 
-    const emberGlow = new THREE.PointLight(0xff6a00, 6, 6, 1.6);
+    const keyLight = new THREE.DirectionalLight(0xffb56b, 1.6);
+    keyLight.position.set(2, 5, 3);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.width = 2048;
+    keyLight.shadow.mapSize.height = 2048;
+    keyLight.shadow.camera.near = 0.5;
+    keyLight.shadow.camera.far = 20;
+    keyLight.shadow.camera.left = -6;
+    keyLight.shadow.camera.right = 6;
+    keyLight.shadow.camera.top = 6;
+    keyLight.shadow.camera.bottom = -6;
+    keyLight.shadow.bias = -0.0003;
+    keyLight.shadow.normalBias = 0.02;
+    scene.add(keyLight);
+
+    const emberGlow = new THREE.PointLight(0xff6a00, 8, 8, 1.8);
     emberGlow.position.set(0, 1.05, 0);
+    emberGlow.castShadow = true;
     scene.add(emberGlow);
 
-    const sparkLight = new THREE.PointLight(0xffaa33, 1.2, 4, 1.6);
+    const sparkLight = new THREE.PointLight(0xffaa33, 2, 5, 1.8);
     sparkLight.position.set(0.4, 1.6, 0.3);
     scene.add(sparkLight);
+
+    const rimLight = new THREE.DirectionalLight(0xff8844, 0.8);
+    rimLight.position.set(-3, 4, -2);
+    scene.add(rimLight);
 
     const group = new THREE.Group();
     scene.add(group);
@@ -61,14 +102,17 @@ export function initHeroScene(container) {
         legGeo.clone().translate(-2.9, 0, 0),
         legGeo.clone().translate(-2.9, 0, -1.6)
     ];
-    const ironMat = new THREE.MeshStandardMaterial({ color: 0x3b2a22, roughness: 0.85, metalness: 0.35 });
+    const ironMat = new THREE.MeshStandardMaterial({ color: 0x3b2a22, roughness: 0.8, metalness: 0.4 });
     const bodyMesh = new THREE.Mesh(mergeGeometries(bodyGeos), ironMat);
     bodyMesh.position.y = 0.35;
+    bodyMesh.castShadow = true;
+    bodyMesh.receiveShadow = true;
     group.add(bodyMesh);
 
     const ashMat = new THREE.MeshStandardMaterial({ color: 0x1c130e, roughness: 1, metalness: 0 });
     const ash = new THREE.Mesh(new THREE.BoxGeometry(2.9, 0.18, 1.5), ashMat);
     ash.position.y = 1.05;
+    ash.receiveShadow = true;
     group.add(ash);
 
     const barGeos = [];
@@ -77,9 +121,10 @@ export function initHeroScene(container) {
         bar.translate(0, 0, -0.7 + i * 0.13);
         barGeos.push(bar);
     }
-    const grillMat = new THREE.MeshStandardMaterial({ color: 0x88807a, roughness: 0.5, metalness: 0.7 });
+    const grillMat = new THREE.MeshStandardMaterial({ color: 0x88807a, roughness: 0.4, metalness: 0.8 });
     const grill = new THREE.Mesh(mergeGeometries(barGeos), grillMat);
     grill.position.y = 1.45;
+    grill.castShadow = true;
     group.add(grill);
 
     const meatGeo = new THREE.SphereGeometry(0.62, 24, 18);
@@ -93,18 +138,19 @@ export function initHeroScene(container) {
     }
     meatGeo.computeVertexNormals();
 
-    const meatMat = new THREE.MeshStandardMaterial({ color: 0xc0392b, roughness: 0.45, metalness: 0.05 });
+    const meatMat = new THREE.MeshStandardMaterial({ color: 0xc0392b, roughness: 0.4, metalness: 0.1, emissive: 0x331100, emissiveIntensity: 0.3 });
     const meat = new THREE.Mesh(meatGeo, meatMat);
     meat.position.y = 1.62;
+    meat.castShadow = true;
     group.add(meat);
 
-    const fatMat = new THREE.MeshStandardMaterial({ color: 0xf5e3c8, roughness: 0.6 });
+    const fatMat = new THREE.MeshStandardMaterial({ color: 0xf5e3c8, roughness: 0.5, clearcoat: 0.5 });
     const fatCap = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 8), fatMat);
     fatCap.scale.set(1.3, 0.35, 1.0);
     fatCap.position.y = 1.95;
     group.add(fatCap);
 
-    const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.32, depthWrite: false });
+    const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.25, depthWrite: false });
     const fakeShadow = new THREE.Mesh(new THREE.CircleGeometry(2.4, 24), shadowMat);
     fakeShadow.rotation.x = -Math.PI / 2;
     fakeShadow.position.y = 0.02;
@@ -112,7 +158,7 @@ export function initHeroScene(container) {
 
     const particleTexture = makeParticleTexture();
 
-    const SPARK_COUNT = 420;
+    const SPARK_COUNT = 500;
     const sparkPos = new Float32Array(SPARK_COUNT * 3);
     const sparkCol = new Float32Array(SPARK_COUNT * 3);
     const sparkColor = new THREE.Color();
@@ -120,7 +166,7 @@ export function initHeroScene(container) {
         sparkPos[i * 3] = (Math.random() - 0.5) * 2.6;
         sparkPos[i * 3 + 1] = Math.random() * 1.1;
         sparkPos[i * 3 + 2] = (Math.random() - 0.5) * 1.2;
-        sparkColor.setHSL(0.06 + Math.random() * 0.05, 1, 0.5 + Math.random() * 0.4);
+        sparkColor.setHSL(0.06 + Math.random() * 0.05, 1, 0.55 + Math.random() * 0.4);
         sparkCol[i * 3] = sparkColor.r;
         sparkCol[i * 3 + 1] = sparkColor.g;
         sparkCol[i * 3 + 2] = sparkColor.b;
@@ -129,19 +175,20 @@ export function initHeroScene(container) {
     sparkGeo.setAttribute('position', new THREE.BufferAttribute(sparkPos, 3));
     sparkGeo.setAttribute('color', new THREE.BufferAttribute(sparkCol, 3));
     const sparkMat = new THREE.PointsMaterial({
-        size: 0.14,
+        size: 0.12,
         map: particleTexture,
         vertexColors: true,
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
-        opacity: 0.9
+        opacity: 0.95,
+        sizeAttenuation: true
     });
     const sparks = new THREE.Points(sparkGeo, sparkMat);
     sparks.position.y = 1.15;
     group.add(sparks);
 
-    const SMOKE_COUNT = 90;
+    const SMOKE_COUNT = 120;
     const smokePos = new Float32Array(SMOKE_COUNT * 3);
     for (let i = 0; i < SMOKE_COUNT; i++) {
         smokePos[i * 3] = (Math.random() - 0.5) * 1.4;
@@ -151,11 +198,11 @@ export function initHeroScene(container) {
     const smokeGeo = new THREE.BufferGeometry();
     smokeGeo.setAttribute('position', new THREE.BufferAttribute(smokePos, 3));
     const smokeMat = new THREE.PointsMaterial({
-        size: 0.65,
+        size: 0.6,
         map: particleTexture,
         color: 0x9a8b80,
         transparent: true,
-        opacity: 0.32,
+        opacity: 0.28,
         depthWrite: false
     });
     const smoke = new THREE.Points(smokeGeo, smokeMat);
@@ -188,6 +235,9 @@ export function initHeroScene(container) {
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
+        composer.setSize(width, height);
+        fxaaPass.material.uniforms['resolution'].value.set(1 / width, 1 / height);
+        bloomPass.resolution.set(width, height);
     };
     const resizeObserver = new ResizeObserver(onResize);
     resizeObserver.observe(container);
@@ -203,20 +253,20 @@ export function initHeroScene(container) {
         const dt = Math.min(timer.getDelta(), 0.05);
         const t = timer.getElapsed();
 
-        group.rotation.y = t * 0.25;
-        group.position.y = Math.sin(t * 0.8) * 0.05;
+        group.rotation.y = t * 0.22;
+        group.position.y = Math.sin(t * 0.7) * 0.04;
 
-        meat.position.y = 1.62 + Math.sin(t * 1.2) * 0.02;
-        meat.rotation.y = t * 0.6;
+        meat.position.y = 1.62 + Math.sin(t * 1.1) * 0.02;
+        meat.rotation.y = t * 0.5;
 
-        emberGlow.intensity = 6 + Math.sin(t * 2.4) * 1.5;
-        sparkLight.intensity = 1.0 + Math.random() * 0.8;
-        sparks.material.opacity = 0.8 + Math.random() * 0.3;
+        emberGlow.intensity = 8 + Math.sin(t * 2.2) * 2;
+        sparkLight.intensity = 1.5 + Math.random() * 1;
+        sparks.material.opacity = 0.85 + Math.random() * 0.25;
 
         const sparkArr = sparkGeo.attributes.position.array;
         for (let i = 0; i < SPARK_COUNT; i++) {
-            sparkArr[i * 3 + 1] += dt * (0.15 + Math.random() * 0.2);
-            if (sparkArr[i * 3 + 1] > 1.3) {
+            sparkArr[i * 3 + 1] += dt * (0.18 + Math.random() * 0.25);
+            if (sparkArr[i * 3 + 1] > 1.4) {
                 sparkArr[i * 3] = (Math.random() - 0.5) * 2.6;
                 sparkArr[i * 3 + 1] = 0;
                 sparkArr[i * 3 + 2] = (Math.random() - 0.5) * 1.2;
@@ -226,9 +276,9 @@ export function initHeroScene(container) {
 
         const smokeArr = smokeGeo.attributes.position.array;
         for (let i = 0; i < SMOKE_COUNT; i++) {
-            smokeArr[i * 3] += Math.sin(t + i) * dt * 0.1;
-            smokeArr[i * 3 + 1] += dt * 0.35;
-            if (smokeArr[i * 3 + 1] > 3.8) {
+            smokeArr[i * 3] += Math.sin(t + i) * dt * 0.12;
+            smokeArr[i * 3 + 1] += dt * 0.4;
+            if (smokeArr[i * 3 + 1] > 4.0) {
                 smokeArr[i * 3] = (Math.random() - 0.5) * 1.4;
                 smokeArr[i * 3 + 1] = 1.4;
                 smokeArr[i * 3 + 2] = (Math.random() - 0.5) * 1.0;
@@ -241,7 +291,7 @@ export function initHeroScene(container) {
         camera.lookAt(0, 1.15, 0);
 
         if (visible) {
-            renderer.render(scene, camera);
+            composer.render();
         }
     }
 
@@ -251,6 +301,7 @@ export function initHeroScene(container) {
         renderer,
         scene,
         camera,
+        composer,
         dispose() {
             disposed = true;
             cancelAnimationFrame(raf);
@@ -269,6 +320,10 @@ export function initHeroScene(container) {
             sparkMat.dispose();
             smokeMat.dispose();
             particleTexture.dispose();
+            renderPass.dispose();
+            bloomPass.dispose();
+            fxaaPass.dispose();
+            composer.dispose();
             renderer.dispose();
             if (renderer.domElement.parentNode) {
                 renderer.domElement.parentNode.removeChild(renderer.domElement);

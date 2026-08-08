@@ -1,45 +1,48 @@
-import { fakeShadow } from './common.js';
+import { materials, fakeShadow } from './common.js';
 
-export default function createHomens(THREE) {
+export default function createHomens(THREE, { envMap }) {
     const group = new THREE.Group();
     const inner = new THREE.Group();
     group.add(inner);
 
-    const skinMat = new THREE.MeshStandardMaterial({ color: 0xd99a6c, roughness: 0.7 });
-    const pantsMat = new THREE.MeshStandardMaterial({ color: 0x2f4b63, roughness: 0.8 });
+    const xPositions = [-0.95, 0, 0.95];
     const shirtColors = [0x2d6fb0, 0xc0392b, 0x27ae60];
 
     const figures = [];
-    const xPositions = [-0.95, 0, 0.95];
-
     xPositions.forEach((x, index) => {
         const person = new THREE.Group();
-        const shirtMat = new THREE.MeshStandardMaterial({ color: shirtColors[index], roughness: 0.75 });
+        const shirtMat = materials.shirt(shirtColors[index]);
 
         const torso = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.52, 0.28), shirtMat);
         torso.position.y = 0.78;
+        torso.castShadow = true;
         person.add(torso);
 
-        const head = new THREE.Mesh(new THREE.SphereGeometry(0.16, 20, 16), skinMat);
+        const head = new THREE.Mesh(new THREE.SphereGeometry(0.16, 20, 16), materials.skin);
         head.position.y = 1.16;
+        head.castShadow = true;
         person.add(head);
 
         const armL = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.42, 0.12), shirtMat);
         armL.position.set(-0.28, 0.78, 0);
         armL.rotation.z = 0.12;
+        armL.castShadow = true;
         person.add(armL);
 
         const armR = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.42, 0.12), shirtMat);
         armR.position.set(0.28, 0.78, 0);
         armR.rotation.z = -0.12;
+        armR.castShadow = true;
         person.add(armR);
 
-        const legL = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.48, 0.18), pantsMat);
+        const legL = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.48, 0.18), materials.pants);
         legL.position.set(-0.1, 0.28, 0);
+        legL.castShadow = true;
         person.add(legL);
 
-        const legR = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.48, 0.18), pantsMat);
+        const legR = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.48, 0.18), materials.pants);
         legR.position.set(0.1, 0.28, 0);
+        legR.castShadow = true;
         person.add(legR);
 
         person.position.x = x;
@@ -48,7 +51,7 @@ export default function createHomens(THREE) {
         figures.push(person);
     });
 
-    inner.add(fakeShadow(THREE, 1.5, 0.3));
+    inner.add(fakeShadow(THREE, 1.5, 0.28));
 
     return {
         group,
