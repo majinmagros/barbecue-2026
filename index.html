@@ -1,0 +1,296 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/slick.css" />
+    <title>Formação Tech</title>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.185.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.185.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header class="menu-principal">
+        <main>
+            <div class="header-1">
+                <div class="logo">
+                    <img src="./img/logo-topo.png" />
+                </div>
+                <div class="redes-sociais">
+                    <ul>
+                        <li>
+                            <a href="">
+                                <img src="./img/rss.png" />
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="./img/face.png" />
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="./img/tw.png" />
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="./img/linkedin.png" />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </header>
+    <main class="col-100 menu-urls">
+        <div class="header-2">
+            <div class="menu">
+                <ul>
+                    <li>
+                        <a href="">Home</a>
+                    </li>
+                    <li>
+                        <a href="">Sobre nós</a>
+                    </li>
+                    <li>
+                        <a href="">Serviços</a>
+                    </li>
+                    <li>
+                        <a href="">Páginas</a>
+                    </li>
+                    <li>
+                        <a href="">Blog</a>
+                    </li>
+                    <li>
+                        <a href="">Contato</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="busca">
+                <input placeholder="Procurar" type="text" />
+            </div>
+        </div>
+    </main>
+    <div class="col-100">
+        <div class="hero-3d" id="hero-canvas"></div>
+    </div>
+    <div>
+        
+    </div>
+    <div class="col-100">
+        <div class="content texto-destaque">
+            <h1>Churrasco <strong>Formação Tech</strong> no Clube Itaú Guarapiranga.</h1>
+            <p>
+                <h1><script>
+
+                alert('Olá tudo bem? sejam muito bem-vindos a nossa página para organização churrasco da Formação Tech Itaú, mas primeiramente, preencha os dados para que possamos ter uma estimativa de pessoas, consumo e melhor data para realização de nosso evento.')
+        
+
+                var homens = prompt("Informe quantos homens foram convidados:");
+                var mulheres = prompt("Informe quantas mulheres foram convidadas:");
+                var kids = prompt("Informe a quantidade de crianças que irão acompanhar seus pais:");
+
+                var melhorData = prompt("Informe qual seria melhor data");
+        
+                var cervejaHomens=5; //Quantidade consumo cervejas homens = 5
+                var cervejaMulheres=3;//Quantidade consumo cervejas mulheres=3
+                var refriKids=5;//Quantidade consumo refrigerante=5
+        
+                
+                var acompHomens =0.50;    //Quantidade acompanhamento homens= 500 gramas
+                var acompMulheres = 0.60; //Quantidade acompanhamento mulheres = 600 gramas
+                var acompKids = 0.30;      // Quantidade acompanhamento crianças= 300 gramas
+        
+                var carneHomens = 0.80;   //Quantidade Carne por homem = 800 gramas
+                var carneMulheres = 0.70;  // Quantidade carne por mulhere = 700 gramas
+                var carneKids = 0.40;      //quantidade carne por criança = 400 gramas
+        
+                var totalCervejaHomens = cervejaHomens * homens;
+                var totalCervejaMulheres = cervejaMulheres * mulheres;
+        
+                var totalCervejas = totalCervejaHomens + totalCervejaMulheres;
+        
+                var totalRefrigerantes = refriKids * kids;
+                
+                var totalAcompHomens = acompHomens * homens;
+                var totalAcompMulheres = acompMulheres * mulheres;
+                var totalAcompKids= acompKids * kids;
+        
+                var totalAcompanhamento = totalAcompHomens + totalAcompMulheres + totalAcompKids;
+        
+                var totalCarneHomens = carneHomens * homens;
+                var totalCarneMulheres = carneMulheres * mulheres;
+                var totalCarneKids = carneKids * kids;
+        
+                var totalCarnes = totalCarneHomens + totalCarneMulheres + totalCarneKids;
+
+                
+
+                
+               
+                document.write('Vocês escolheram a melhor data para: ' + melhorData);
+                alert('Muito obrigado por responder, agora, veja a estimativa de consumo logo abaixo');
+            
+                
+        
+            </script></h1>
+        </p>
+
+            <div class="col-3 bloco-texto">
+                <img src="./img/content-2.png" />
+                <h3><b>Editar dados</b> é simples</h3>
+                <p>Vocês podem atualizar a página ou apertar botão F5 de seu teclado e reiniciar nova pesquisa com quantidade de pessoas e data do evento.
+                </p>
+            </div>
+            <div class="col-3 bloco-texto" style="margin-top: 6em;">
+                <img src="./img/content-1.png" />
+                <h3><b>Conferir evento</b> também é simples</h3>
+                <p>Após preencher todos os dados vocês podem conferir a data que foi mais votada.
+                </p>
+            </div>
+            <div class="col-3 bloco-texto">
+                <img src="./img/content-3.png" />
+                <h3><b>Confira o gráfico</b> ainda mais simplificado</h3>
+                <p>Nesse item vocês poderão conferir quantidade e grupo de pessoas, estimativa de consumo e data mais pertinente para todos.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-100 bloco-imagens-texto">
+        <div class="content" style="margin-left: 24%; float: left;">
+            <div class="col-3 bloco-texto bloco-imagem">
+                <img src="./img/imagemHomens.jpg">
+                <p><b>Quantidade de Homens</b></p>
+                <p> <script> document.write('Total de ' + homens + ' homens que consumirão: '+ '<br>' + totalCervejaHomens + ' cervejas, ' + '<br>'+ totalCarneHomens + ' kg de carne, ' +'<br>'+ totalAcompHomens + ' kg de acompanhamento ');
+                </script></p>
+            </div>
+            <div class="col-3 bloco-texto bloco-imagem">
+                <img src="./img/imagemMulheres.jpg">
+                <p><b>Quantidade de Mulheres</b></p>
+                <p> <script> document.write('Total de ' + mulheres + ' mulheres que consumirão: '+ '<br>' + totalCervejaMulheres + ' cervejas, ' + '<br>'+  totalCarneMulheres + ' kg de carne, '+'<br>' + totalAcompMulheres + ' kg de acompanhamento ');
+               </script></p>
+            </div>
+            <div class="col-3 bloco-texto bloco-imagem">
+                <img src="./img/imagemKids.jpg">
+                <p><b>Quantidade de Crianças</b></p>
+                <p> <script> document.write('Total de ' + kids + ' crianças que consumirão: '+ '<br>' + totalRefrigerantes + ' refrigerantes, ' + '<br>'+ totalCarneKids + ' kg de carne, ' +'<br>'+ totalAcompKids + ' kg de acompanhamento ');
+                </script></p>
+            </div>
+            <div class="col-3 bloco-texto bloco-imagem">
+                <img src="./img/imagemCarne.png">
+                <p><b>Total Geral Carnes</b></p>
+                <p><script> document.write('Total de ' + totalCarnes + ' kgs de carnes serão consumidas');
+                </script></p>
+                <p>Engana-se quem pensa que a carne vermelha é inimiga da saúde.</p>
+            </div>
+            <div class="col-3 bloco-texto bloco-imagem">
+                <img src="./img/imagemCerveja.jpg">
+                <p><b>Total Geral Cervejas</b></p>
+                <p><script> document.write('Total de ' + totalCervejas +' cervejas serão consumidas');
+                </script></p>
+                <p>Irão encontrar aqui as melhores do mundo. Cervejas especiais com aromas e sabores que remetem a diversas frutas.
+                </p>
+            </div>
+            <div class="col-3 bloco-texto bloco-imagem">
+                <img src="./img/imagemAcompanhamentos.jpg">
+                <p><b>Total Geral Acompanhamentos</b></p>
+                <p><script> document.write('Total de ' + totalAcompanhamento +' kgs acompanhamentos serão consumidas');
+                </script></p>
+                <p>Bons acompanhamentos fazem toda a diferença! 
+                </p>
+            </div>
+        </div>
+        <div class="content" style="margin-left: 24%; float: left;">
+            <div class="col-3 bloco-texto bloco-imagem">
+                <img src="./img/imagemRefrigerante.jpg">
+                <p><b>Total de Refrigerantes</b></p>
+                <p><script> document.write('Total de ' + totalRefrigerantes +' refrigerantes serão consumidos');
+                </script></p>
+                <p>Bebida não alcoólica e não fermentada, à base de água mineral e açúcar, podendo conter edulcorante e gás carbônico.
+                </p>
+            </div>
+            <div class="col-3 bloco-texto bloco-imagem">
+                <img src="./img/imagemSucos.jpg">
+                <p><b>Sucos Naturais</b></p>
+                <p>Os sucos podem te ajudar a emagrecer, melhorar a cor do seu cabelo, te dar energia e muitas outras facilidades. É só pensar direito em quais alimentos usar, colocar água e bater no liquidificador.
+                </p>
+            </div>
+            <div class="col-3 bloco-texto bloco-imagem">
+                <img src="./img/imagemClube.jpg">
+                <p><b>Clube Itaú Guarapiranga</b></p>
+                <p>Dentro de um conceito de esportes com base em lazer, no encontro entre amigos, ou mesmo em grandes disputas de campeonatos nacionais, internacionais e interclubes.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-100 bloco-logos">
+        <div class="content">
+            <div class="col-4">
+                <img alt="logo" title="logo" src="img/logo-rodape.png" />
+            </div>
+            <div class="col-4">
+                <img alt="logo" title="logo" src="img/imagemItau.jpeg" />
+            </div>
+            <div class="col-4">
+                <br />
+                <img alt="logo" title="logo" src="img/logoAmbev.jpg" />
+            </div>
+            <div class="col-4">
+                <img alt="Puma" title="Puma" src="img/imagemSomosTech.png" />
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="col-100 footer">
+            <div class="content">
+                <div class="col-4">
+                    <h3><b>Posts Populares</b></h3>
+                    <p><a href="https://blog.camicado.com.br/tipos-de-churrasco-ao-redor-do-mundo/">Carnes Benefícios</a></p>
+                    <p class="clock">25-maio 2013<p>
+                            <p><a href="https://www.portalcdm.com.br/curiosidades/as-melhores-frases-de-cerveja-para-voce-se-inspirar/">Melhores Frases Cervejas</a></p>
+                            <p class="clock">09-junho 2016<p>
+                </div>
+                <div class="col-4">
+                    <h3><b>Tags</b></h3>
+                    <p>#churrasco #bbq #o #picanha #carne #churras #barbecue #a #food #cerveja #churrascoterapia #delivery #churrascada #churrascoemcasa #bbqbrasil #meat #instafood #comida #carnes #costela #grill #gastronomia #parrilla #foodporn #steak #churrasconabrasa #churrasqueiro #carnesnobres #angus #bhfyp
+
+                    </div>
+                <div class="col-4">
+                    <h3><b>Sobre nós</b></h3>
+                    <p>
+                        Somos Todxs Tech
+A parceria com a Recode visa promover a empregabilidade na área de TI e teve início no começo do ano. A primeira edição do Recode Pro terminou em fevereiro e resultou na contratação de 66 profissionais para a área de tecnologia do Itaú Unibanco.
+                    </p>
+                </div>
+                <div class="col-4">
+                    <h3><b>Programa Formação Tech</b></h3>
+                    <p>
+                        O Formação Tech é um programa para formação de profissionais para área de Tecnologia e esta é uma edição voltada a Pessoas com Deficiência.
+
+                    </p>
+                    <p class="local">São Paulo, Brasil<p>
+                            <p class="emailico">formacaotech@itau.com<p>
+                                    <p class="telefoneico">+55 11 9999-9999<p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="col-100 footer-2">
+        <div class="content">
+
+            <p>
+                Feito por pessoas que amam e acreditam no que fazem.
+             </p>
+        </div>
+    </div>
+    <script type="module" src="./js/hero-scene.js"></script>
+</body>
+
+</html>
