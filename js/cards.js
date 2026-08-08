@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { PMREMGenerator } from 'three/addons/extras/PMREMGenerator.js';
 import homens from './themes/homens.js';
 import mulheres from './themes/mulheres.js';
 import criancas from './themes/criancas.js';
@@ -23,13 +22,9 @@ const creators = {
 };
 
 let sharedEnvMap = null;
-let sharedPmremGenerator = null;
 
-function getSharedEnvMap(renderer) {
+function getSharedEnvMap() {
     if (sharedEnvMap) return sharedEnvMap;
-
-    sharedPmremGenerator = new PMREMGenerator(renderer);
-    sharedPmremGenerator.compileEquirectangularShader();
 
     const size = 256;
     const data = new Uint8Array(3 * size * size);
@@ -53,11 +48,10 @@ function getSharedEnvMap(renderer) {
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
+    texture.mapping = THREE.EquirectangularReflectionMapping;
     texture.needsUpdate = true;
 
-    const renderTarget = sharedPmremGenerator.fromEquirectangular(texture);
-    sharedEnvMap = renderTarget.texture;
-    texture.dispose();
+    sharedEnvMap = texture;
     return sharedEnvMap;
 }
 
@@ -116,7 +110,7 @@ function createCard(el) {
     el.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.environment = getSharedEnvMap(renderer);
+    scene.environment = getSharedEnvMap();
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
     camera.position.set(0, 1.15, 4.3);
