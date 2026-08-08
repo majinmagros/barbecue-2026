@@ -131,6 +131,7 @@ Os valores informados pelo usuário nos prompts alimentam os `getElementById().i
 
 - O arquivo `página barbecue.pdf` é material de referência e **não** faz parte do site (fora do versionamento).
 - O Three.js é carregado da CDN `unpkg.com`; é necessária conexão com a internet para renderizar os cards.
+- **Histórico completo:** veja [CHANGELOG.md](CHANGELOG.md) para detalhes de todas as versões.
 
 ## 📄 Licença
 
