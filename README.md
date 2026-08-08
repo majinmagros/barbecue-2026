@@ -2,6 +2,14 @@
 
 > Página web para organização do churrasco da **Formação Tech Itaú** no **Clube Itaú Guarapiranga**, com visual moderno 3D em **Three.js (r185)**.
 
+## 🔗 Acesso online
+
+- **Página principal:** https://majinmagros.github.io/barbecue-2026/
+- **Página 2 (com mapa):** https://majinmagros.github.io/barbecue-2026/churrasco2.html
+- **Página 3:** https://majinmagros.github.io/barbecue-2026/churrasco3.html
+
+> **Nota:** O site usa ES Modules via `importmap` + Three.js CDN (unpkg). Funciona apenas via HTTP/HTTPS (não abre via `file://`). Para rodar localmente, use um servidor HTTP (ex: `python -m http.server 9000`).
+
 ## 📋 Sobre o projeto
 
 Este projeto calcula a estimativa de consumo de um churrasco com base no número de participantes informados pelo usuário:
