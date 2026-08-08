@@ -14,7 +14,7 @@ Ao carregar a página, o usuário responde alguns prompts e recebe na tela as qu
 
 ## ✨ Novidades da versão 2026
 
-A versão 2026 substitui as fotos estáticas por **cards 3D animados e interativos**, criados proceduralmente com **Three.js** — sem depender de arquivos de imagem para o conteúdo dos cards:
+A versão 2026 substitui as fotos estáticas por **cards 3D animados e interativos**, criados proceduralmente com **Three.js (r185)** — sem depender de arquivos de imagem para o conteúdo dos cards:
 
 | Card | Cena 3D procedural |
 | --- | --- |
@@ -36,7 +36,17 @@ Cada card:
 - **Pausa automaticamente** quando fora da tela (`IntersectionObserver`) para economizar recursos;
 - Usa `renderer.setAnimationLoop()` e `outputColorSpace = SRGBColorSpace` (boas práticas atuais do Three.js).
 
-Além dos cards, há uma **cena hero 3D** no topo da página principal com uma churrasqueira animada (brasas, faíscas e fumaça).
+### 🎨 Melhorias Three.js r185
+
+- **ACESFilmicToneMapping** + `toneMappingExposure` para HDR realista
+- **PCFSoftShadowMap** com bias/normalBias para sombras suaves
+- **MeshPhysicalMaterial** com `clearcoat`, `transmission`, `iridescence`, `ior` (vidro, líquidos, metal, água)
+- **InstancedMesh** para garrafas (5), latas (6), copos (4), guarda-sóis (2) — performance ×10-100
+- **Environment Map procedural** (PMREM via DataTexture) para reflexos realistas sem CORS
+- **EffectComposer** + **UnrealBloomPass** (brasas/garrafas) + **FXAA** (anti-aliasing)
+- **Sombras PCFSoft** com `castShadow`/`receiveShadow` em todos os objetos
+
+Além dos cards, há uma **cena hero 3D** no topo da página principal com uma churrasqueira animada (brasas, faíscas, fumaça, bloom, sombras).
 
 ## 🛠️ Tecnologias
 
@@ -45,14 +55,7 @@ Além dos cards, há uma **cena hero 3D** no topo da página principal com uma c
 - **Three.js r185** — renderização 3D via CDN (`unpkg`) com `importmap`
 - **jQuery + Slick** — carrossel de imagens nas páginas secundárias (legado)
 
-### 💡 Interação opcional
-
-Ao contrário das versões antigas, **a página não abre mais com perguntas obrigatórias**
-(`alert`/`prompt` disparados automaticamente). Agora há um botão **"Calcular estimativa do
-churrasco"** no topo: as perguntas só são feitas **se o usuário quiser**. Enquanto isso,
-a página carrega normalmente com as cenas 3D animando. A lógica ficou em `js/calculo.js`.
-
-## 📁 Estrutura do projeto
+### 📁 Estrutura do projeto
 
 ```
 barbecue/
@@ -60,12 +63,12 @@ barbecue/
 ├── churrasco2.html     # Página secundária (slider + cards 3D)
 ├── churrasco3.html     # Página secundária (slider + cards 3D)
 ├── css/
-│   ├── main.css        # Estilos gerais + .hero-3d + .card-3d
+│   ├── main.css        # Estilos gerais + .hero-3d + .card-3d + .btn-estimar
 │   └── slick.css       # Estilos do carrossel
 ├── js/
-│   ├── cards.js        # Fábrica de cards 3D (renderer, loop, tilt, pausa)
+│   ├── cards.js        # Fábrica de cards 3D (renderer, loop, tilt, pausa, envMap, sombras)
 │   ├── calculo.js      # Lógica de estimativa de consumo (botão)
-│   ├── hero-scene.js   # Cena 3D do topo (churrasqueira)
+│   ├── hero-scene.js   # Cena 3D do topo (churrasqueira + EffectComposer + Bloom + FXAA)
 │   ├── themes/         # Cenas 3D de cada card
 │   │   ├── homens.js
 │   │   ├── mulheres.js
@@ -76,7 +79,7 @@ barbecue/
 │   │   ├── refrigerantes.js
 │   │   ├── sucos.js
 │   │   ├── clube.js
-│   │   └── common.js   # Helpers compartilhados
+│   │   └── common.js   # Helpers + MeshPhysicalMaterial + InstancedMesh
 │   ├── main.js         # Carrossel (jQuery/Slick)
 │   └── jquery*.js, slick.min.js
 └── img/                # Logos, ícones e imagens
@@ -108,7 +111,7 @@ Ou abra os arquivos diretamente pelo navegador (`index.html`, `churrasco2.html` 
 | Acompanhamento | 500 g | 600 g | 300 g |
 | Refrigerante | — | — | 5 unidades |
 
-Os valores informados pelo usuário nos prompts alimentam os `document.write` que exibem os totais em cada card.
+Os valores informados pelo usuário nos prompts alimentam os `getElementById().innerHTML` que exibem os totais em cada card.
 
 ## 🧭 Páginas
 
