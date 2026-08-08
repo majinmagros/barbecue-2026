@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 export function makePhysicalMat(params = {}) {
     return new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
