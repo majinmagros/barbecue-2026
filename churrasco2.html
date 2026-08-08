@@ -1,9 +1,18 @@
 <html>
 
 <head>
+    <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="./css/main.css">
     <link rel="stylesheet" type="text/css" href="./css/slick.css" />
     <title>Formação Tech</title>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.185.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.185.0/examples/jsm/"
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -11,7 +20,7 @@
         <main>
             <div class="header-1">
                 <div class="logo">
-                    <img src="./img/formação tech logo.png" />
+                    <img src="./img/logo-topo.png" />
                 </div>
                 <div class="redes-sociais">
                     <ul>
@@ -122,7 +131,7 @@
                 var totalAcompMulheres = acompMulheres * mulheres;
                 var totalAcompKids= acompKids * kids;
         
-                var totalAcompanhamento = totalAcompHomens + totalAcompMulheres + acompKids;
+                var totalAcompanhamento = totalAcompHomens + totalAcompMulheres + totalAcompKids;
         
                 var totalCarneHomens = carneHomens * homens;
                 var totalCarneMulheres = carneMulheres * mulheres;
@@ -165,32 +174,32 @@
     <div class="col-100 bloco-imagens-texto">
         <div class="content" style="margin-left: 24%; float: left;">
             <div class="col-3 bloco-texto bloco-imagem">
-                <img src="./img/imagemHomens.jpg">
+                <div class="card-3d" data-theme="homens"></div>
                 <p><b>Quantidade de Homens</b></p>
                 <p> <script> document.write('Total de ' + homens + ' homens que consumirão: '+ '<br>' + totalCervejaHomens + ' cervejas, ' + '<br>'+ totalCarneHomens + ' kg de carne, ' +'<br>'+ totalAcompHomens + ' kg de acompanhamento ');
                 </script></p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
-                <img src="./img/imagemMulheres.jpg">
+                <div class="card-3d" data-theme="mulheres"></div>
                 <p><b>Quantidade de Mulheres</b></p>
                 <p> <script> document.write('Total de ' + mulheres + ' mulheres que consumirão: '+ '<br>' + totalCervejaMulheres + ' cervejas, ' + '<br>'+  totalCarneMulheres + ' kg de carne, '+'<br>' + totalAcompMulheres + ' kg de acompanhamento ');
                </script></p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
-                <img src="./img/imagemKids.jpg">
+                <div class="card-3d" data-theme="criancas"></div>
                 <p><b>Quantidade de Crianças</b></p>
                 <p> <script> document.write('Total de ' + kids + ' crianças que consumirão: '+ '<br>' + totalRefrigerantes + ' refrigerantes, ' + '<br>'+ totalCarneKids + ' kg de carne, ' +'<br>'+ totalAcompKids + ' kg de acompanhamento ');
                 </script></p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
-                <img src="./img/imagemCarne.png">
+                <div class="card-3d" data-theme="carnes"></div>
                 <p><b>Total Geral Carnes</b></p>
                 <p><script> document.write('Total de ' + totalCarnes + ' kgs de carnes serão consumidas');
                 </script></p>
                 <p>Engana-se quem pensa que a carne vermelha é inimiga da saúde.</p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
-                <img src="./img/imagemCerveja.jpg">
+                <div class="card-3d" data-theme="cervejas"></div>
                 <p><b>Total Geral Cervejas</b></p>
                 <p><script> document.write('Total de ' + totalCervejas +' cervejas serão consumidas');
                 </script></p>
@@ -198,7 +207,7 @@
                 </p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
-                <img src="./img/imagemAcompanhamentos.jpg">
+                <div class="card-3d" data-theme="acompanhamentos"></div>
                 <p><b>Total Geral Acompanhamentos</b></p>
                 <p><script> document.write('Total de ' + totalAcompanhamento +' kgs acompanhamentos serão consumidas');
                 </script></p>
@@ -208,7 +217,7 @@
         </div>
         <div class="content" style="margin-left: 24%; float: left;">
             <div class="col-3 bloco-texto bloco-imagem">
-                <img src="./img/imagemRefrigerante.jpg">
+                <div class="card-3d" data-theme="refrigerantes"></div>
                 <p><b>Total de Refrigerantes</b></p>
                 <p><script> document.write('Total de ' + totalRefrigerantes +' refrigerantes serão consumidos');
                 </script></p>
@@ -216,13 +225,13 @@
                 </p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
-                <img src="./img/imagemSucos.jpg">
+                <div class="card-3d" data-theme="sucos"></div>
                 <p><b>Sucos Naturais</b></p>
                 <p>Os sucos podem te ajudar a emagrecer, melhorar a cor do seu cabelo, te dar energia e muitas outras facilidades. É só pensar direito em quais alimentos usar, colocar água e bater no liquidificador.
                 </p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
-                <img src="./img/imagemClube.jpg">
+                <div class="card-3d" data-theme="clube"></div>
                 <p><b>Clube Itaú Guarapiranga</b></p>
                 <p><a href=> R. Marizeiro, 809 - Riviera Paulista, São Paulo - SP, 04928-000</p>
             </div>
@@ -231,7 +240,7 @@
     <div class="col-100 bloco-logos">
         <div class="content">
             <div class="col-4">
-                <img alt="logo" title="logo" src="img/formação tech logo rodape.png" />
+                <img alt="logo" title="logo" src="img/logo-rodape.png" />
             </div>
             <div class="col-4">
                 <img alt="logo" title="logo" src="img/imagemItau.jpeg" />
@@ -292,6 +301,7 @@ A parceria com a Recode visa promover a empregabilidade na área de TI e teve in
     <script type="text/javascript" src="./js/jquery-migrate.js"></script>
     <script type="text/javascript" src="./js/slick.min.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
+    <script type="module" src="./js/cards.js"></script>
 </body>
 
 </html>
