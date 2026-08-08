@@ -340,6 +340,31 @@ cursor: pointer;
     outline: none;
 }
 
+.btn-estimar {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 8px 0;
+    background: #ff5722;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-estimar:hover {
+    background: #e64a19;
+}
+
+.res-data {
+    font-size: 15px;
+    color: #646464;
+    margin: 10px 0;
+}
+
 
 
 

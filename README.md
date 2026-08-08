@@ -45,6 +45,13 @@ Além dos cards, há uma **cena hero 3D** no topo da página principal com uma c
 - **Three.js r185** — renderização 3D via CDN (`unpkg`) com `importmap`
 - **jQuery + Slick** — carrossel de imagens nas páginas secundárias (legado)
 
+### 💡 Interação opcional
+
+Ao contrário das versões antigas, **a página não abre mais com perguntas obrigatórias**
+(`alert`/`prompt` disparados automaticamente). Agora há um botão **"Calcular estimativa do
+churrasco"** no topo: as perguntas só são feitas **se o usuário quiser**. Enquanto isso,
+a página carrega normalmente com as cenas 3D animando. A lógica ficou em `js/calculo.js`.
+
 ## 📁 Estrutura do projeto
 
 ```
@@ -57,6 +64,7 @@ barbecue/
 │   └── slick.css       # Estilos do carrossel
 ├── js/
 │   ├── cards.js        # Fábrica de cards 3D (renderer, loop, tilt, pausa)
+│   ├── calculo.js      # Lógica de estimativa de consumo (botão)
 │   ├── hero-scene.js   # Cena 3D do topo (churrasqueira)
 │   ├── themes/         # Cenas 3D de cada card
 │   │   ├── homens.js

@@ -87,80 +87,10 @@
     <div class="col-100">
         <div class="content texto-destaque">
             <h1>Churrasco <strong>Formação Tech</strong> no Clube Itaú Guarapiranga.</h1>
-            <p>
-                <h1><script>
-
-                alert('Olá tudo bem? sejam muito bem-vindos a nossa página para organização churrasco da Formação Tech Itaú, mas primeiramente, preencha os dados para que possamos ter uma estimativa de pessoas, consumo e melhor data para realização de nosso evento.')
-        
-
-                var homens = prompt("Informe quantos homens foram convidados:");
-                var mulheres = prompt("Informe quantas mulheres foram convidadas:");
-                var kids = prompt("Informe a quantidade de crianças que irão acompanhar seus pais:");
-
-                var melhorData = prompt("Informe qual seria melhor data");
-        
-                var cervejaHomens=5; //Quantidade consumo cervejas homens = 5
-                var cervejaMulheres=3;//Quantidade consumo cervejas mulheres=3
-                var refriKids=5;//Quantidade consumo refrigerante=5
-        
-                
-                var acompHomens =0.50;    //Quantidade acompanhamento homens= 500 gramas
-                var acompMulheres = 0.60; //Quantidade acompanhamento mulheres = 600 gramas
-                var acompKids = 0.30;      // Quantidade acompanhamento crianças= 300 gramas
-        
-                var carneHomens = 0.80;   //Quantidade Carne por homem = 800 gramas
-                var carneMulheres = 0.70;  // Quantidade carne por mulhere = 700 gramas
-                var carneKids = 0.40;      //quantidade carne por criança = 400 gramas
-        
-                var totalCervejaHomens = cervejaHomens * homens;
-                var totalCervejaMulheres = cervejaMulheres * mulheres;
-        
-                var totalCervejas = totalCervejaHomens + totalCervejaMulheres;
-        
-                var totalRefrigerantes = refriKids * kids;
-                
-                var totalAcompHomens = acompHomens * homens;
-                var totalAcompMulheres = acompMulheres * mulheres;
-                var totalAcompKids= acompKids * kids;
-        
-                var totalAcompanhamento = totalAcompHomens + totalAcompMulheres + totalAcompKids;
-        
-                var totalCarneHomens = carneHomens * homens;
-                var totalCarneMulheres = carneMulheres * mulheres;
-                var totalCarneKids = carneKids * kids;
-        
-                var totalCarnes = totalCarneHomens + totalCarneMulheres + totalCarneKids;
-
-                
-
-                
-               
-                document.write('Vocês escolheram a melhor data para: ' + melhorData);
-                alert('Muito obrigado por responder, agora, veja a estimativa de consumo logo abaixo');
-            
-                
-        
-            </script></h1>
-        </p>
-
-            <div class="col-3 bloco-texto">
-                <img src="./img/content-2.png" />
-                <h3><b>Editar dados</b> é simples</h3>
-                <p>Vocês podem atualizar a página ou apertar botão F5 de seu teclado e reiniciar nova pesquisa com quantidade de pessoas e data do evento.
-                </p>
-            </div>
-            <div class="col-3 bloco-texto" style="margin-top: 6em;">
-                <img src="./img/content-1.png" />
-                <h3><b>Conferir evento</b> também é simples</h3>
-                <p>Após preencher todos os dados vocês podem conferir a data que foi mais votada.
-                </p>
-            </div>
-            <div class="col-3 bloco-texto">
-                <img src="./img/content-3.png" />
-                <h3><b>Confira o gráfico</b> ainda mais simplificado</h3>
-                <p>Nesse item vocês poderão conferir quantidade e grupo de pessoas, estimativa de consumo e data mais pertinente para todos.
-                </p>
-            </div>
+<p>
+                <button type="button" class="btn-estimar" onclick="iniciarPesquisa()">Calcular estimativa do churrasco</button>
+            </p>
+            <p id="res-data" class="res-data">Clique em "Calcular estimativa" para saber a melhor data e o consumo estimado do evento.</p>
         </div>
     </div>
     <div class="col-100 bloco-imagens-texto">
@@ -168,41 +98,35 @@
             <div class="col-3 bloco-texto bloco-imagem">
                 <div class="card-3d" data-theme="homens"></div>
                 <p><b>Quantidade de Homens</b></p>
-                <p> <script> document.write('Total de ' + homens + ' homens que consumirão: '+ '<br>' + totalCervejaHomens + ' cervejas, ' + '<br>'+ totalCarneHomens + ' kg de carne, ' +'<br>'+ totalAcompHomens + ' kg de acompanhamento ');
-                </script></p>
+                <p id="res-homens">Clique em "Calcular estimativa" para ver a previsão de consumo dos homens.</p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
                 <div class="card-3d" data-theme="mulheres"></div>
                 <p><b>Quantidade de Mulheres</b></p>
-                <p> <script> document.write('Total de ' + mulheres + ' mulheres que consumirão: '+ '<br>' + totalCervejaMulheres + ' cervejas, ' + '<br>'+  totalCarneMulheres + ' kg de carne, '+'<br>' + totalAcompMulheres + ' kg de acompanhamento ');
-               </script></p>
+                <p id="res-mulheres">Clique em "Calcular estimativa" para ver a previsão de consumo das mulheres.</p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
                 <div class="card-3d" data-theme="criancas"></div>
                 <p><b>Quantidade de Crianças</b></p>
-                <p> <script> document.write('Total de ' + kids + ' crianças que consumirão: '+ '<br>' + totalRefrigerantes + ' refrigerantes, ' + '<br>'+ totalCarneKids + ' kg de carne, ' +'<br>'+ totalAcompKids + ' kg de acompanhamento ');
-                </script></p>
+                <p id="res-criancas">Clique em "Calcular estimativa" para ver a previsão de consumo das crianças.</p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
                 <div class="card-3d" data-theme="carnes"></div>
                 <p><b>Total Geral Carnes</b></p>
-                <p><script> document.write('Total de ' + totalCarnes + ' kgs de carnes serão consumidas');
-                </script></p>
+                <p id="res-carnes">Clique em "Calcular estimativa" para ver o total de carnes.</p>
                 <p>Engana-se quem pensa que a carne vermelha é inimiga da saúde.</p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
                 <div class="card-3d" data-theme="cervejas"></div>
                 <p><b>Total Geral Cervejas</b></p>
-                <p><script> document.write('Total de ' + totalCervejas +' cervejas serão consumidas');
-                </script></p>
+                <p id="res-cervejas">Clique em "Calcular estimativa" para ver o total de cervejas.</p>
                 <p>Irão encontrar aqui as melhores do mundo. Cervejas especiais com aromas e sabores que remetem a diversas frutas.
                 </p>
             </div>
             <div class="col-3 bloco-texto bloco-imagem">
                 <div class="card-3d" data-theme="acompanhamentos"></div>
                 <p><b>Total Geral Acompanhamentos</b></p>
-                <p><script> document.write('Total de ' + totalAcompanhamento +' kgs acompanhamentos serão consumidas');
-                </script></p>
+                <p id="res-acompanhamentos">Clique em "Calcular estimativa" para ver o total de acompanhamentos.</p>
                 <p>Bons acompanhamentos fazem toda a diferença! 
                 </p>
             </div>
@@ -211,8 +135,7 @@
             <div class="col-3 bloco-texto bloco-imagem">
                 <div class="card-3d" data-theme="refrigerantes"></div>
                 <p><b>Total de Refrigerantes</b></p>
-                <p><script> document.write('Total de ' + totalRefrigerantes +' refrigerantes serão consumidos');
-                </script></p>
+                <p id="res-refri">Clique em "Calcular estimativa" para ver o total de refrigerantes.</p>
                 <p>Bebida não alcoólica e não fermentada, à base de água mineral e açúcar, podendo conter edulcorante e gás carbônico.
                 </p>
             </div>
@@ -290,6 +213,7 @@ A parceria com a Recode visa promover a empregabilidade na área de TI e teve in
              </p>
         </div>
     </div>
+    <script type="text/javascript" src="./js/calculo.js"></script>
     <script type="module" src="./js/hero-scene.js"></script>
     <script type="module" src="./js/cards.js"></script>
 </body>
