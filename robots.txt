@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://formacaotech.itau.com.br/sitemap.xml

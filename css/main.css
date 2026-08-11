@@ -1,7 +1,42 @@
+html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
 body {
 width: 100%;
 height: 100%;
 margin: 0 auto;
+}
+
+:focus-visible {
+    outline: 3px solid #00bac6;
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 1000;
+    background: #ff5722;
+    color: #ffffff;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.skip-link:focus {
+    left: 0;
+    top: 0;
+}
+
+p, h1, h2, h3 {
+    text-wrap: balance;
+}
+
+.res-data, .res-homens, .res-mulheres, .res-criancas, .res-carnes, .res-cervejas, .res-acompanhamentos, .res-refri {
+    font-variant-numeric: tabular-nums;
 }
 ul {
    padding: 0px!important; 
